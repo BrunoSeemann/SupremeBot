@@ -9,6 +9,8 @@
   "author": "JohannesKepler",
   "license": "ISC",
   "dependencies": {
-    "discord.js": "^11.6.1"
+    "discord.js": "^11.6.1",
+    "fs": "0.0.1-security",
+    "superagent": "^5.3.1"
   }
 }
