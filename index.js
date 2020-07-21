@@ -5,15 +5,13 @@ const superagent = require("superagent")
 
 const bot = new Discord.Client({disableEveryone: true});
 
-
-bot.on("ready", async () => {
-    console.log(`${bot.user.username} is online`)
-    bot.user.setActivity("%help", {url:"https://www.twitch.tv/yoda", type:"WATCHING"});
-})
+require("./util/eventHandler")(bot)
 
 const fs = require("fs");
+
 bot.commands = new Discord.Collection();
 bot.aliases = new Discord.Collection();
+
 fs.readdir("./commands", (err, files) => {
 
     if (err) console.log(err)
@@ -33,12 +31,24 @@ fs.readdir("./commands", (err, files) => {
 
 });
 
+//console chatter
+let y = process.openStdin()
+y.addListener("data", res => {
+    let x = res.toString().trim().split(/ +/g)
+    bot.channels.get("").send(x.join(" "));
+})
+
+
+
+
+
+
 bot.on("message", async message => {
     if (message.author.bot || message.channel.type === "dm") return;
 
     let prefix = botconfig.prefix;
     let messageArray = message.content.split(" ")
-    let cmd = messageArray[0];
+    let cmd = messageArray[0].toLowerCase();
     let args = messageArray.slice(1);
 
     if(!message.content.startsWith(prefix)) return;
